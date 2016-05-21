@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+	<title>jQuery Powered Raffle</title>
+	<style type="text/css">
+	
+		form {
+			margin-bottom: 30px ;
+			}
+	
+		ol#raffle {
+			list-style-type: none ;
+			float: left ;
+			font-size: 30px ;
+			margin: 0px 0px 0px 0px ;
+			padding: 0px 0px 0px 0px ;
+			}
+			
+		ol#raffle li {
+			background-color: #FAFAFA ;
+			border: 2px solid #454545 ;
+			float: left ;
+			height: 60px ;
+			line-height: 60px ;
+			margin: 0px 10px 10px 0px ;
+			overflow: hidden ;
+			padding: 0px 0px 0px 0px ;
+			text-align: center ;
+			width: 60px ;
+			}
+			
+		ol#raffle li.on {
+			background-color: gold ;
+			font-size: 45px ;
+			font-weight: bold ;
+			}
+	
+	</style>
+	
+	<script type="text/javascript" src="raffle_files/jquery-1.js"></script>
+	<script type="text/javascript">
+	
+		// When document loads, initialize the interface.
+		$(
+			function(){
+				var jForm = $( "form:first" );
+				var jSelect = jForm.find( ":input[ name = 'count' ]" );
+				
+				// Populate the select box.
+				for (intI = 1 ; intI <= 100 ; intI++){
+					
+					// Add select option.
+					jSelect.append( "<option value=\"" + intI + "\">" + intI + "</option>" );
+					
+				}
+				
+				
+				// Hook up raffle button.
+				jForm.submit(
+					function( objEvent ){
+						// Run raffle.
+						RunRaffle( jSelect.val() );
+					
+						// Prevent default.
+						return( false );
+					}	
+					);
+			}
+			);
+			
+			
+		// Initializes and runs the raffle.
+		function RunRaffle( intCount ){
+			var jRaffle = $( "#raffle" );
+			
+			// Clear the raffle list.
+			jRaffle.empty();
+			
+			// Create a new list item for each lot.
+			for (var intI = 1 ; intI <= intCount ; intI++){
+				
+				// Create the lot item.
+				jRaffle.append( "<li><div>" + intI + "</div></li>" );
+				
+			}
+			
+			// Find the "on" element.
+			var jCurrentLI = jRaffle.find( "li:first" ).addClass( "on" );
+					
+			// Get base pause time.
+			var intPause = 40;
+			
+			// Get the time to wait before chaning the pause time.
+			var intDelay = (4500 + (Math.random() * 2000));
+						
+						
+			// Define the ticker.
+			var Ticker = function(){
+				
+				var jNextLI = jCurrentLI.next( "li" );
+				
+				// Check to see if there is a next LI.
+				if (!jNextLI.length){
+				
+					// Since there is no LI left in the list, our next LI will be the 
+					// first one in the list.
+					jNextLI = jRaffle.find( "li:first" );
+				
+				}
+				
+				// Turn off the current list.
+				jCurrentLI.removeClass( "on" );
+				
+				// Turn on next list.
+				jNextLI.addClass( "on" );
+				
+				// Store the new LI in the current LI (for next iteration).
+				jCurrentLI = jNextLI;
+				
+				
+				// Check to see if we should start changing the pause duration.
+				if (intDelay > 0){
+					
+					// Substract from the delay.
+					intDelay -= intPause;
+					
+				} else {
+					
+					// Change the pause.
+					intPause *= (1 + (Math.random() * .1));
+				
+				}
+				
+				// Check to see how long the pause it. Once it gets over a certain wait
+				// time, we are done playing and picking the winner.
+				if (intPause >= 800){
+				
+					// We found a winner!
+					alert( "Winner: " + jCurrentLI.text() );
+				
+				} else {
+								
+					// Not done yet, call again shortly.
+					setTimeout( Ticker, intPause );
+					
+				}				
+			}
+			
+			
+			// Start ticker.
+			Ticker();		
+		}
+	
+	
+	</script>
+</head>
+<body>
+
+	<h1>
+		jQuery Powered Raffle
+	</h1>
+	
+	<form>
+		<select name="count"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option selected="selected" value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option><option value="32">32</option><option value="33">33</option><option value="34">34</option><option value="35">35</option><option value="36">36</option><option value="37">37</option><option value="38">38</option><option value="39">39</option><option value="40">40</option><option value="41">41</option><option value="42">42</option><option value="43">43</option><option value="44">44</option><option value="45">45</option><option value="46">46</option><option value="47">47</option><option value="48">48</option><option value="49">49</option><option value="50">50</option><option value="51">51</option><option value="52">52</option><option value="53">53</option><option value="54">54</option><option value="55">55</option><option value="56">56</option><option value="57">57</option><option value="58">58</option><option value="59">59</option><option value="60">60</option><option value="61">61</option><option value="62">62</option><option value="63">63</option><option value="64">64</option><option value="65">65</option><option value="66">66</option><option value="67">67</option><option value="68">68</option><option value="69">69</option><option value="70">70</option><option value="71">71</option><option value="72">72</option><option value="73">73</option><option value="74">74</option><option value="75">75</option><option value="76">76</option><option value="77">77</option><option value="78">78</option><option value="79">79</option><option value="80">80</option><option value="81">81</option><option value="82">82</option><option value="83">83</option><option value="84">84</option><option value="85">85</option><option value="86">86</option><option value="87">87</option><option value="88">88</option><option value="89">89</option><option value="90">90</option><option value="91">91</option><option value="92">92</option><option value="93">93</option><option value="94">94</option><option value="95">95</option><option value="96">96</option><option value="97">97</option><option value="98">98</option><option value="99">99</option><option value="100">100</option></select>
+		<button type="submit">Run Raffle</button>
+	</form>
+		
+	<ol id="raffle"></ol>
+	
+	<br clear="all">
+	<br>
+
+
+
+</body></html>
